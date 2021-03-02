@@ -30,22 +30,24 @@
 </template>
 
 <script>
+// Main calculator controller
+
 export default {
   name: 'MyCalculator',
-  methods: {
-    updateLog(e) {
-      this.log += e.target.value
+  calculated: {
+    displayLog(e) {
+      return this.log += e.target.value
     },
-    updateCurrentEntry(e){
-      this.currentEntry += e.target.value
+    currentEntry(e){
+      return this.currentEntry += e.target.value
     },
     handleDigitButton(e) {
-      this.log = `${this.log}, ${e.event.value}`
+      return this.log = `${this.log}, ${e.event.value}`
     }
   },
   data() {
     return {
-      log: 'suck on my dick',
+      log: '',
       currentEntry: ''
     }
   }
