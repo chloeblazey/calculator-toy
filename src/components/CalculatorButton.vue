@@ -1,7 +1,8 @@
 <template>
     <button 
         @click="onClick"
-        class="calculator-button" >{{value}}
+        class="calculator-button" >
+        {{value}}
     </button>
 </template>
 
@@ -13,7 +14,7 @@ export default {
     },
     methods: {
         onClick() {
-            this.$emit('button-push', this.value)
+            this.$emit('digit-entry', this.value)
         }
     }
 }
