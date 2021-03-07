@@ -65,14 +65,19 @@ export default {
         this.currentEntry = e.target.value
       } else {
         this.pushCurrentEntry()
+        this.calculateValue()
+        this.pushCurrentEntry()
         this.currentEntry = e.target.value
         this.currentIsOperator = true 
       }
     },
     calculateValue() {
-      const B = parseInt(this.entryStack.pop())
+      if (this.entryStack.length < 3) {
+        return
+      }
+      const B = parseFloat(this.entryStack.pop())
       const OPER = this.entryStack.pop()
-      const A = parseInt(this.entryStack.pop())
+      const A = parseFloat(this.entryStack.pop())
       switch(OPER) {
         case '+' :
           this.currentEntry = A+B
@@ -95,6 +100,7 @@ export default {
     pushCurrentEntry() {
       if (this.currentEntry) {
         this.entryStack.push(this.currentEntry)
+        this.clearEntry()
       }
     }
   }
