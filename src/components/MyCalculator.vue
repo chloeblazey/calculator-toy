@@ -5,7 +5,7 @@
     <div class="displayInterface">
       <p>{{currentEntry}}</p><br>
       <p>{{entryStack}}</p><br>
-      <p>{{currentIsOperator}}</p>
+      <p>current entry is an operator: {{currentIsOperator}}</p>
     </div>
     
     <!--  button interface  -->
@@ -71,27 +71,26 @@ export default {
     },
     calculateValue() {
       const B = parseInt(this.entryStack.pop())
-      const OP = this.entryStack.pop()
+      const OPER = this.entryStack.pop()
       const A = parseInt(this.entryStack.pop())
-      switch(OP) {
+      switch(OPER) {
         case '+' :
-          this.entryStack.push(A+B)
+          this.currentEntry = A+B
           break;
         case '*' :
-          this.entryStack.push(A*B)
+          this.currentEntry = A*B
           break;
         case '/' :
-          this.entryStack.push(A/B)
+          this.currentEntry = A/B
           break;
         case '-' :
-          this.entryStack.push(A-B)
+          this.currentEntry = A-B
           break;
       }
     },
     enterButton() {
       this.pushCurrentEntry()
       this.calculateValue()
-      this.clearEntry()
     },
     pushCurrentEntry() {
       if (this.currentEntry) {
