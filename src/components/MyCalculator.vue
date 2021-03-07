@@ -3,8 +3,9 @@
 
     <!--  display interface  -->
     <div class="displayInterface">
-      <!-- <p>{{lastEntry}}</p><br> -->
-      <p>{{currentEntry}}</p>
+      <p>{{currentEntry}}</p><br>
+      <p>{{entryStack}}</p><br>
+      <p>{{currentIsOperator}}</p>
     </div>
     
     <!--  button interface  -->
@@ -24,7 +25,7 @@
       <button value="1" @click="digitButton">1</button>
       <button value="3" @click="digitButton">3</button>
       <button value="2" @click="digitButton">2</button>
-      <button class="button enter">=</button>
+      <button class="button enter" @click="enterButton">=</button>
       <button value="0"
               class="button zero" @click="digitButton">0</button>
       <button value=".">.</button>
@@ -45,7 +46,7 @@ export default {
   methods: {
     digitButton(e) {
       if (this.currentIsOperator) {
-        this.entryStack.push(this.currentEntry)
+        this.pushCurrentEntry()
         this.currentEntry = e.target.value
         this.currentIsOperator = false
       } else {
@@ -63,9 +64,38 @@ export default {
       if (this.currentIsOperator) {
         this.currentEntry = e.target.value
       } else {
-        this.entryStack.push(this.currentEntry)
+        this.pushCurrentEntry()
         this.currentEntry = e.target.value
         this.currentIsOperator = true 
+      }
+    },
+    calculateValue() {
+      const B = parseInt(this.entryStack.pop())
+      const OP = this.entryStack.pop()
+      const A = parseInt(this.entryStack.pop())
+      switch(OP) {
+        case '+' :
+          this.entryStack.push(A+B)
+          break;
+        case '*' :
+          this.entryStack.push(A*B)
+          break;
+        case '/' :
+          this.entryStack.push(A/B)
+          break;
+        case '-' :
+          this.entryStack.push(A-B)
+          break;
+      }
+    },
+    enterButton() {
+      this.pushCurrentEntry()
+      this.calculateValue()
+      this.clearEntry()
+    },
+    pushCurrentEntry() {
+      if (this.currentEntry) {
+        this.entryStack.push(this.currentEntry)
       }
     }
   }
